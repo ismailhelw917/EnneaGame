@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import PrivacyPage from './pages/PrivacyPage';
+import AboutEnneagram from './pages/AboutEnneagram';
+import EnneagramChatbot from './pages/EnneagramChatbot';
 import StrategyPage from './components/StrategyPage';
 import Footer from './components/Footer';
 import { motion, AnimatePresence } from 'motion/react';
@@ -51,7 +53,7 @@ const AdUnit = () => {
 
 function App() {
   const [selectedType, setSelectedType] = useState<number | null>(null);
-  const [activeTab, setActiveTab] = useState<'synthesis' | 'games' | 'strategy'>('synthesis');
+  const [activeTab, setActiveTab] = useState<'about' | 'synthesis' | 'games' | 'strategy' | 'chatbot'>('about');
   const [selectedGame, setSelectedGame] = useState<GameStrategy | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
@@ -96,24 +98,36 @@ function App() {
             <Target className="w-6 h-6 text-cyan-500" />
             <span className="font-mono font-bold tracking-tighter text-xl">Enneagram & Games</span>
           </Link>
-          <nav className="flex gap-1 bg-white/5 p-1 rounded-lg">
+          <nav className="flex gap-1 bg-white/5 p-1 rounded-lg overflow-x-auto no-scrollbar">
+            <button
+              onClick={() => { setActiveTab('about'); setSelectedGame(null); }}
+              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'about' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
+            >
+              About
+            </button>
             <button
               onClick={() => { setActiveTab('synthesis'); setSelectedGame(null); }}
-              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === 'synthesis' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
+              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'synthesis' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
               Synthesis
             </button>
             <button
               onClick={() => { setActiveTab('strategy'); setSelectedGame(null); }}
-              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === 'strategy' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
+              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'strategy' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
               Strategy
             </button>
             <button
               onClick={() => { setActiveTab('games'); setSelectedGame(null); }}
-              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === 'games' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
+              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'games' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
               Games
+            </button>
+            <button
+              onClick={() => { setActiveTab('chatbot'); setSelectedGame(null); }}
+              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'chatbot' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
+            >
+              AI Guide
             </button>
           </nav>
         </div>
@@ -121,7 +135,27 @@ function App() {
 
       <main className="flex-1 flex flex-col h-[calc(100vh-4rem)] overflow-hidden">
         <AnimatePresence mode="wait">
-          {activeTab === 'synthesis' ? (
+          {activeTab === 'about' ? (
+            <motion.div
+              key="about"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="flex-1 overflow-y-auto"
+            >
+              <AboutEnneagram />
+            </motion.div>
+          ) : activeTab === 'chatbot' ? (
+            <motion.div
+              key="chatbot"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="flex-1"
+            >
+              <EnneagramChatbot />
+            </motion.div>
+          ) : activeTab === 'synthesis' ? (
             <motion.div
               key="synthesis"
               initial={{ opacity: 0, y: 20 }}
