@@ -1,11 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { enneagramData, gameStrategies } from './data/enneagram';
+import { Link, useLocation } from 'react-router-dom';
+import PrivacyPage from './pages/PrivacyPage';
 import StrategyPage from './components/StrategyPage';
 import Footer from './components/Footer';
-import PrivacyPolicy from './components/PrivacyPolicy';
 import { motion, AnimatePresence } from 'motion/react';
 import { Shield, Brain, Heart, Crosshair, Zap, Activity, Target, Sword, Search, Play, ArrowLeft, Monitor } from 'lucide-react';
 import { GameStrategy } from './data/types';
+import { enneagramData, gameStrategies } from './data/enneagram';
 
 const AdUnit = () => {
   const adRef = React.useRef<HTMLModElement>(null);
@@ -53,7 +54,9 @@ function App() {
   const [activeTab, setActiveTab] = useState<'synthesis' | 'games' | 'strategy'>('synthesis');
   const [selectedGame, setSelectedGame] = useState<GameStrategy | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const location = useLocation();
+
+  const isPrivacyPage = location.pathname === '/privacy';
 
   const getCenterColor = (center: string) => {
     switch (center) {
@@ -82,13 +85,17 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-gray-200 font-sans selection:bg-cyan-500/30 pb-12">
-      {/* Header */}
-      <header className="border-b border-white/10 bg-[#0a0a0a]/80 backdrop-blur-md sticky top-0 z-50">
+      {isPrivacyPage ? (
+        <PrivacyPage />
+      ) : (
+        <>
+          {/* Header */}
+          <header className="border-b border-white/10 bg-[#0a0a0a]/80 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setActiveTab('synthesis'); setSelectedGame(null); }}>
+          <Link to="/" className="flex items-center gap-2 cursor-pointer" onClick={() => { setActiveTab('synthesis'); setSelectedGame(null); }}>
             <Target className="w-6 h-6 text-cyan-500" />
             <span className="font-mono font-bold tracking-tighter text-xl">Enneagram & Games</span>
-          </div>
+          </Link>
           <nav className="flex gap-1 bg-white/5 p-1 rounded-lg">
             <button
               onClick={() => { setActiveTab('synthesis'); setSelectedGame(null); }}
@@ -485,8 +492,9 @@ function App() {
         )}
       </AnimatePresence>
       <AdUnit />
-      <Footer onOpenPrivacy={() => setIsPrivacyOpen(true)} />
-      <PrivacyPolicy isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
+      <Footer />
+        </>
+      )}
     </div>
   );
 }

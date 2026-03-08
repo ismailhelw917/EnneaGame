@@ -1,11 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Target, Shield, FileText, Mail } from 'lucide-react';
 
-interface FooterProps {
-  onOpenPrivacy: () => void;
-}
-
-const Footer: React.FC<FooterProps> = ({ onOpenPrivacy }) => {
+const Footer: React.FC = () => {
   return (
     <footer className="border-t border-white/10 bg-[#0a0a0a] py-12 mt-24">
       <div className="max-w-7xl mx-auto px-4">
@@ -34,12 +31,12 @@ const Footer: React.FC<FooterProps> = ({ onOpenPrivacy }) => {
             <h4 className="text-xs font-mono font-bold text-gray-400 uppercase tracking-widest">Legal & Contact</h4>
             <ul className="space-y-2">
               <li>
-                <button 
-                  onClick={onOpenPrivacy}
+                <Link 
+                  to="/privacy"
                   className="flex items-center gap-2 text-sm text-gray-500 hover:text-cyan-500 transition-colors"
                 >
                   <Shield className="w-4 h-4" /> Privacy Policy
-                </button>
+                </Link>
               </li>
               <li>
                 <button className="flex items-center gap-2 text-sm text-gray-500 hover:text-cyan-500 transition-colors">
