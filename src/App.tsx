@@ -4,6 +4,7 @@ import PrivacyPage from './pages/PrivacyPage';
 import AboutEnneagram from './pages/AboutEnneagram';
 import EnneagramChatbot from './pages/EnneagramChatbot';
 import InDepthIntel from './pages/InDepthIntel';
+import { BannerAd } from './components/BannerAd';
 import StrategyPage from './components/StrategyPage';
 import ShareButton from './components/ShareButton';
 import Footer from './components/Footer';
@@ -152,7 +153,7 @@ function App() {
               {/* Enneagram Geometry */}
               <div className="flex flex-col items-center justify-center flex-1 w-full max-h-[60vh] md:max-h-[65vh] relative z-10">
                 <div className="relative w-full max-w-[85vw] md:max-w-2xl aspect-square">
-                  <svg viewBox="-300 -300 600 600" className="w-full h-full drop-shadow-2xl overflow-visible">
+                  <svg viewBox="-300 -300 600 600" className="w-full h-full drop-shadow-2xl overflow-hidden">
                     {/* Circle */}
                     <circle cx="0" cy="0" r="150" fill="none" stroke="currentColor" strokeWidth="1" className="text-white/20" />
                     
@@ -248,24 +249,20 @@ function App() {
                       const config = labelConfig[type.id];
 
                       return (
-                        <foreignObject 
+                        <text
                           key={`label-${type.id}`}
-                          x={config.align === 'middle' ? config.x - 125 : config.align === 'end' ? config.x - 250 : config.x} 
-                          y={config.y - 12} 
-                          width="250" 
-                          height="32"
-                          className="pointer-events-none"
+                          x={config.x}
+                          y={config.y}
+                          textAnchor={config.align === 'middle' ? 'middle' : config.align === 'end' ? 'end' : 'start'}
+                          className={`text-[10px] md:text-xs font-mono font-bold transition-all duration-300 ${
+                            type.center === 'Head' ? 'fill-cyan-500' : 
+                            type.center === 'Heart' ? 'fill-yellow-500' : 
+                            'fill-red-500'
+                          } opacity-90 pointer-events-none`}
+                          dominantBaseline="middle"
                         >
-                          <div className={`text-[10px] md:text-xs font-mono font-bold transition-all duration-300 ${
-                            type.center === 'Head' ? 'text-cyan-500' : 
-                            type.center === 'Heart' ? 'text-yellow-500' : 
-                            'text-red-500'
-                          } opacity-90 whitespace-nowrap ${
-                            config.align === 'middle' ? 'text-center' : config.align === 'end' ? 'text-right pr-4' : 'text-left pl-4'
-                          }`}>
-                            {type.name.toUpperCase()}
-                          </div>
-                        </foreignObject>
+                          {type.name.toUpperCase()}
+                        </text>
                       );
                     })}
                   </svg>
@@ -523,6 +520,12 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
+      {activeTab !== 'synthesis' && (
+        <>
+          <BannerAd type="adsense" className="mt-12 mb-4" />
+          <BannerAd type="network" className="mb-12" />
+        </>
+      )}
       <Footer />
         </>
       )}
