@@ -1,5 +1,4 @@
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import Stripe from "stripe";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -18,15 +17,20 @@ const getStripe = () => {
 // Start the server
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = process.env.PORT || 3000;
 
   app.use(express.json());
+
+  // Health check for Cloud Run
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "ok", timestamp: new Date().toISOString() });
+  });
 
   // API Routes
   app.post("/api/create-checkout-session", async (req, res) => {
     try {
       const stripe = getStripe();
-      const baseUrl = process.env.APP_URL || 'http://localhost:3000';
+      const baseUrl = process.env.APP_URL || `http://localhost:${PORT}`;
       
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
@@ -38,7 +42,7 @@ async function startServer() {
                 name: "Enneagaming Tactical Intel - Full Access",
                 description: "Complete behavioral analytics and tactical win conditions for all Enneagram types.",
               },
-              unit_amount: 99, // $0.99 (matching UI)
+              unit_amount: 99, // $0.99
             },
             quantity: 1,
           },
@@ -58,6 +62,7 @@ async function startServer() {
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
@@ -65,14 +70,15 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     // Serve static files in production
-    app.use(express.static(path.join(__dirname, "dist")));
+    const distPath = path.join(__dirname, "dist");
+    app.use(express.static(distPath));
     app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "dist", "index.html"));
+      res.sendFile(path.join(distPath, "index.html"));
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+  app.listen(Number(PORT), "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
   });
 }
 
