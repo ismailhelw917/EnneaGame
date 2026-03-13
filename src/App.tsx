@@ -5,7 +5,6 @@ import AboutEnneagram from './pages/AboutEnneagram';
 import EnneagramChatbot from './pages/EnneagramChatbot';
 import InDepthIntel from './pages/InDepthIntel';
 import CharacterSelectionPage from './pages/CharacterSelectionPage';
-import DonationsPage from './pages/DonationsPage';
 import StrategyPage from './components/StrategyPage';
 import ShareButton from './components/ShareButton';
 import Footer from './components/Footer';
