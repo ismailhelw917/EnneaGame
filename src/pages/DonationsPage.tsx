@@ -29,6 +29,7 @@ const DonationsPage = () => {
 
     setLoading(label);
     setError(null);
+    console.log('Origin:', window.location.origin);
     try {
       const response = await fetch(`${window.location.origin}/api/create-donation-session`, {
         method: 'POST',
@@ -37,6 +38,13 @@ const DonationsPage = () => {
         },
         body: JSON.stringify({ amount, label, destinationAccountId: accountId }),
       });
+
+      if (!response.ok) {
+        const text = await response.text();
+        console.error('Server error response status:', response.status);
+        console.error('Server error response text:', text);
+        throw new Error(`Server returned ${response.status}: ${text.substring(0, 50)}...`);
+      }
 
       const data = await response.json();
 

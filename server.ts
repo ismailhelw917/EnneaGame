@@ -24,7 +24,7 @@ async function startServer() {
   });
 
   // Stripe Routes
-  app.post("/api/create-donation-session", async (req, res) => {
+  app.all("/api/create-donation-session", async (req, res) => {
     console.log("Received request for /api/create-donation-session");
     try {
       const { amount, label } = req.body;
