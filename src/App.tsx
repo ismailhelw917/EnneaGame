@@ -17,7 +17,7 @@ import { enneagramData, gameStrategies } from './data/enneagram';
 
 function App() {
   const [selectedType, setSelectedType] = useState<number | null>(null);
-  const [activeTab, setActiveTab] = useState<'about' | 'synthesis' | 'games' | 'strategy' | 'chatbot' | 'intel' | 'characters' | 'donations'>('about');
+  const [activeTab, setActiveTab] = useState<'about' | 'synthesis' | 'games' | 'strategy' | 'chatbot' | 'intel' | 'characters'>('about');
   const [selectedGame, setSelectedGame] = useState<GameStrategy | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
@@ -25,7 +25,7 @@ function App() {
   // Sync activeTab with URL path on mount and location change
   React.useEffect(() => {
     const path = location.pathname.replace('/', '');
-    const validTabs = ['about', 'synthesis', 'games', 'strategy', 'chatbot', 'intel', 'characters', 'donations'] as const;
+    const validTabs = ['about', 'synthesis', 'games', 'strategy', 'chatbot', 'intel', 'characters'] as const;
     if ((validTabs as readonly string[]).includes(path)) {
       setActiveTab(path as typeof validTabs[number]);
     }
@@ -116,13 +116,6 @@ function App() {
               className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'intel' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
               Intel
-            </Link>
-            <Link
-              to="/donations"
-              onClick={() => { setActiveTab('donations'); setSelectedGame(null); }}
-              className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'donations' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
-            >
-              Donate
             </Link>
           </nav>
           <div className="flex items-center gap-2">
