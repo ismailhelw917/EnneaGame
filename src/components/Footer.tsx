@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { Target, Shield, FileText, Mail } from 'lucide-react';
 import ShareButton from './ShareButton';
 import ExternalAdSlot from './ExternalAdSlot';
+import FooterAd from './FooterAd';
 
 const Footer: React.FC = () => {
   return (
     <footer className="border-t border-white/10 bg-[#0a0a0a] py-12 mt-24">
       <div className="max-w-7xl mx-auto px-4">
+        <FooterAd />
         {/* External Ad Section - Leaderboard */}
         <div className="mb-16">
           <ExternalAdSlot id="footer-top-leaderboard" format="leaderboard" className="mb-4" />
@@ -69,11 +71,6 @@ const Footer: React.FC = () => {
             <span className="text-[10px] font-mono text-gray-700 uppercase tracking-widest">Status: Operational</span>
             <span className="text-[10px] font-mono text-gray-700 uppercase tracking-widest">v1.0.42-STABLE</span>
           </div>
-        </div>
-        
-        <div className="mt-12">
-          <ExternalAdSlot id="footer-bottom-banner" format="banner" className="mb-2" />
-          <p className="text-center text-[7px] font-mono text-gray-800 uppercase tracking-widest">Advertisement</p>
         </div>
         
         <div className="mt-8 text-center">

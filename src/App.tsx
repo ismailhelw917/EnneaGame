@@ -14,7 +14,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Crosshair, Zap, Target, Sword, Search, ArrowLeft } from 'lucide-react';
 import { GameStrategy } from './data/types';
 import { enneagramData, gameStrategies } from './data/enneagram';
-import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const [selectedType, setSelectedType] = useState<number | null>(null);
@@ -22,6 +21,15 @@ function App() {
   const [selectedGame, setSelectedGame] = useState<GameStrategy | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
+
+  // Sync activeTab with URL path on mount and location change
+  React.useEffect(() => {
+    const path = location.pathname.replace('/', '');
+    const validTabs = ['about', 'synthesis', 'games', 'strategy', 'chatbot', 'intel', 'characters', 'donations'] as const;
+    if ((validTabs as readonly string[]).includes(path)) {
+      setActiveTab(path as typeof validTabs[number]);
+    }
+  }, [location.pathname]);
 
   const isPrivacyPage = location.pathname === '/privacy';
 
@@ -60,54 +68,62 @@ function App() {
             <span className="font-mono font-bold tracking-tighter text-lg sm:text-xl hidden xs:block">Enneagaming</span>
           </Link>
           <nav className="flex gap-1 bg-white/5 p-1 rounded-lg overflow-x-auto no-scrollbar scroll-smooth">
-            <button
+            <Link
+              to="/about"
               onClick={() => { setActiveTab('about'); setSelectedGame(null); }}
               className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'about' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
               About
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/synthesis"
               onClick={() => { setActiveTab('synthesis'); setSelectedGame(null); }}
               className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'synthesis' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
               Synthesis
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/strategy"
               onClick={() => { setActiveTab('strategy'); setSelectedGame(null); }}
               className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'strategy' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
               Strategy
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/games"
               onClick={() => { setActiveTab('games'); setSelectedGame(null); }}
               className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'games' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
               Games
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/characters"
               onClick={() => { setActiveTab('characters'); setSelectedGame(null); }}
               className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'characters' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
               Characters
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/chatbot"
               onClick={() => { setActiveTab('chatbot'); setSelectedGame(null); }}
               className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'chatbot' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
               AI Guide
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/intel"
               onClick={() => { setActiveTab('intel'); setSelectedGame(null); }}
               className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'intel' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
               Intel
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/donations"
               onClick={() => { setActiveTab('donations'); setSelectedGame(null); }}
               className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'donations' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
               Donate
-            </button>
+            </Link>
           </nav>
           <div className="flex items-center gap-2">
             <ShareButton />
@@ -178,7 +194,7 @@ function App() {
               exit={{ opacity: 0, y: -20 }}
               className="flex flex-col h-full items-center justify-center pt-2 md:pt-20 p-4 overflow-hidden"
             >
-              <div className="text-center max-w-3xl mx-auto space-y-1 mb-2 md:mb-10 relative z-20">
+              <div className="text-center max-w-3xl mx-auto space-y-1 mb-2 md:mb-10 relative z-20 -mt-36">
                 <h1 className="text-xl md:text-4xl font-black tracking-tight text-white uppercase italic leading-none">
                   Enneagram <span className="text-cyan-500">Gaming</span> Theory
                 </h1>
@@ -554,8 +570,7 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
-      <Footer />
-      <Analytics />
+      {activeTab !== 'intel' && <Footer />}
         </>
       )}
     </div>

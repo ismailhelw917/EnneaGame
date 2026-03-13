@@ -1,12 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Heart, Coffee, Zap, Shield, Trophy, ArrowRight, Loader2, CreditCard } from 'lucide-react';
 
 const DonationsPage = () => {
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [accountId, setAccountId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const savedAccountId = localStorage.getItem('stripeAccountId');
+    if (savedAccountId) {
+      setAccountId(savedAccountId);
+    } else {
+      // Set default account ID provided by the user
+      setAccountId('acct_1T8gKbFObBPpBaOO');
+      localStorage.setItem('stripeAccountId', 'acct_1T8gKbFObBPpBaOO');
+    }
+  }, []);
 
   const handleDonate = async (amount: number, label: string) => {
+    if (!accountId) {
+      setError('Please create a Connect account first.');
+      return;
+    }
+
+    // Open a blank window immediately to avoid popup blocker
+    const newWindow = window.open('', '_blank');
+
     setLoading(label);
     setError(null);
     try {
@@ -15,19 +35,26 @@ const DonationsPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount, label }),
+        body: JSON.stringify({ amount, label, destinationAccountId: accountId }),
       });
 
       const data = await response.json();
 
       if (data.url) {
-        window.location.href = data.url;
+        if (newWindow) {
+          newWindow.location.href = data.url;
+        } else {
+          // Fallback if window.open failed
+          window.location.href = data.url;
+        }
       } else {
+        if (newWindow) newWindow.close();
         throw new Error(data.error || 'Failed to create checkout session');
       }
     } catch (err) {
+      if (newWindow) newWindow.close();
       console.error('Donation error:', err);
-      setError('Could not initiate payment. Please ensure Stripe is configured.');
+      setError(err instanceof Error ? err.message : 'Could not initiate payment. Please ensure Stripe is configured.');
     } finally {
       setLoading(null);
     }

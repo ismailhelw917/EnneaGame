@@ -1,63 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { enneagramData } from '../data/enneagram';
-import { BarChart3, Shield, Zap, Target, Brain, Activity, TrendingUp, Users, AlertTriangle, Lock, CreditCard, Sparkles, LayoutGrid, MousePointer2 } from 'lucide-react';
+import { BarChart3, Shield, Zap, Target, Brain, Activity, TrendingUp, Users, AlertTriangle, Sparkles, LayoutGrid, MousePointer2 } from 'lucide-react';
 
 const InDepthIntel = () => {
   const [selectedTypeId, setSelectedTypeId] = useState<number>(1);
-  const [isUnlocked, setIsUnlocked] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    // Check if user has already paid (mocking with localStorage for this demo)
-    const paid = localStorage.getItem('enneagram_intel_paid');
-    if (paid === 'true') setIsUnlocked(true);
-
-    // Check URL params for success
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('payment') === 'success') {
-      localStorage.setItem('enneagram_intel_paid', 'true');
-      setIsUnlocked(true);
-      // Clean up URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, []);
-
-  const handleUnlock = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
-      
-      const session = await response.json();
-      
-      if (session.error) {
-        throw new Error(session.error);
-      }
-
-      if (session.url) {
-        // Real Stripe Checkout redirect
-        window.location.href = session.url;
-      } else if (session.id) {
-        // Fallback for older Stripe versions or simulations
-        console.log("Session ID received:", session.id);
-        // In a real production environment with a valid key, session.url will be present.
-        // If it's missing, we simulate success for the demo/preview.
-        setTimeout(() => {
-          localStorage.setItem('enneagram_intel_paid', 'true');
-          setIsUnlocked(true);
-          setIsLoading(false);
-        }, 1500);
-      }
-    } catch (error: unknown) {
-      const err = error as Error;
-      console.error("Checkout error:", err);
-      alert(`Checkout Error: ${err.message}\n\nNote: Ensure STRIPE_SECRET_KEY is correctly set in your environment variables.`);
-      setIsLoading(false);
-    }
-  };
 
   const selectedType = enneagramData.find(t => t.id === selectedTypeId)!;
 
@@ -111,55 +58,13 @@ const InDepthIntel = () => {
       </div>
 
       <div className="relative">
-        {/* Paywall Overlay */}
-        {!isUnlocked && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/40 rounded-3xl border border-white/10">
-            <div className="max-w-md w-full mx-4 p-8 bg-[#0a0a0a] border border-cyan-500/30 rounded-3xl shadow-2xl shadow-cyan-500/10 text-center space-y-6">
-              <div className="w-20 h-20 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto border border-cyan-500/20">
-                <Lock className="w-10 h-10 text-cyan-500" />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-2xl font-black text-white uppercase italic tracking-tight">Premium Intel Locked</h3>
-                <p className="text-gray-400 text-sm">
-                  Unlock full behavioral analytics, 9+ performance metrics, and tactical win conditions for all Enneagram types.
-                </p>
-              </div>
-              <div className="py-4 border-y border-white/5 space-y-2">
-                <div className="flex justify-between text-xs font-mono text-gray-500 uppercase">
-                  <span>One-time Access</span>
-                  <span className="text-cyan-400">$0.99</span>
-                </div>
-                <div className="flex justify-between text-xs font-mono text-gray-500 uppercase">
-                  <span>Lifetime Updates</span>
-                  <span className="text-emerald-400">Included</span>
-                </div>
-              </div>
-              <button
-                onClick={handleUnlock}
-                disabled={isLoading}
-                className="w-full py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20 disabled:opacity-50"
-              >
-                {isLoading ? (
-                  <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  <>
-                    <CreditCard className="w-5 h-5" />
-                    Unlock Now
-                  </>
-                )}
-              </button>
-              <p className="text-[10px] text-gray-600 font-mono uppercase">Secure Checkout via Stripe</p>
-            </div>
-          </div>
-        )}
-
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedTypeId}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className={`grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 ${!isUnlocked ? 'filter blur-sm pointer-events-none select-none' : ''}`}
+            className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8"
           >
             {/* Left Column: Profile & Stats */}
             <div className="lg:col-span-1 space-y-6">
