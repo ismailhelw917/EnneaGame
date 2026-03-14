@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { enneagramData } from '../data/enneagram';
 import CommentsPage from './CommentsPage';
+import SEO from '../components/SEO';
 
 const quizQuestions = [
   { id: 1, text: "When facing a challenge, my first instinct is to:", options: [
@@ -94,6 +95,11 @@ const QuizPage = () => {
     const type = enneagramData.find(t => t.id === result);
     return (
       <div className="max-w-3xl mx-auto w-full pt-6 md:pt-10 p-4 flex flex-col min-h-[calc(100vh-4rem)]">
+        <SEO 
+          title={`I'm a Type ${type?.id} Gamer | Enneagaming Quiz`}
+          description={`My gaming personality is Type ${type?.id} - ${type?.name}. Take the Enneagaming quiz to find out your competitive gaming personality.`}
+          keywords={`Enneagram Type ${type?.id}, gaming personality quiz, esports psychology`}
+        />
         <div className="text-center space-y-4 mb-6">
           <h2 className="text-[10px] font-mono text-cyan-400 bg-cyan-950/50 px-2 py-1 rounded inline-block backdrop-blur-sm border border-cyan-500/20 uppercase tracking-widest">
             Analysis Complete

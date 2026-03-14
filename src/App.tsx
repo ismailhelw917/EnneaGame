@@ -8,18 +8,23 @@ import AboutEnneagram from './pages/AboutEnneagram';
 import QuizPage from './pages/QuizPage';
 import InDepthIntel from './pages/InDepthIntel';
 import CharacterSelectionPage from './pages/CharacterSelectionPage';
+import NewsletterPage from './pages/NewsletterPage';
 import StrategyPage from './components/StrategyPage';
 import ShareButton from './components/ShareButton';
 import Footer from './components/Footer';
+import SEO from './components/SEO';
 import { analytics } from './services/analyticsService';
 import { motion, AnimatePresence } from 'motion/react';
-import { Crosshair, Zap, Target, Sword, Search, ArrowLeft } from 'lucide-react';
+import { Crosshair, Zap, Target, Sword, Search, ArrowLeft, Mail } from 'lucide-react';
 import { GameStrategy } from './data/types';
 import { enneagramData, gameStrategies } from './data/enneagram';
+import { Capacitor } from '@capacitor/core';
+
+const isNative = Capacitor.isNativePlatform();
 
 function App() {
   const [selectedType, setSelectedType] = useState<number | null>(null);
-  const [activeTab, setActiveTab] = useState<'about' | 'synthesis' | 'games' | 'strategy' | 'quiz' | 'intel' | 'characters' | 'books' | 'blog'>('about');
+  const [activeTab, setActiveTab] = useState<'about' | 'synthesis' | 'games' | 'strategy' | 'quiz' | 'intel' | 'characters' | 'books' | 'blog' | 'newsletter'>('about');
   const [selectedGame, setSelectedGame] = useState<GameStrategy | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
@@ -27,9 +32,13 @@ function App() {
   // Sync activeTab with URL path on mount and location change
   React.useEffect(() => {
     const path = location.pathname.replace('/', '');
-    const validTabs = ['about', 'synthesis', 'games', 'strategy', 'quiz', 'intel', 'characters', 'books', 'blog'] as const;
+    const validTabs = ['about', 'synthesis', 'games', 'strategy', 'quiz', 'intel', 'characters', 'books', 'blog', 'newsletter'] as const;
     if ((validTabs as readonly string[]).includes(path)) {
-      setActiveTab(path as typeof validTabs[number]);
+      if (isNative && path === 'books') {
+        setActiveTab('about');
+      } else {
+        setActiveTab(path as typeof validTabs[number]);
+      }
     }
   }, [location.pathname]);
 
@@ -56,8 +65,47 @@ function App() {
     );
   }, [searchQuery]);
 
+  // Determine SEO metadata based on current state
+  const seoData = useMemo(() => {
+    if (isPrivacyPage) {
+      return { title: 'Privacy Policy | Enneagaming', description: 'Privacy policy and data handling for Enneagaming.' };
+    }
+    
+    if (selectedGame) {
+      return {
+        title: `${selectedGame.game} Enneagram Strategies | Enneagaming`,
+        description: `Master ${selectedGame.game} with personality-based strategies. Discover the best playstyles, roles, and tactics for your Enneagram type.`,
+        keywords: `${selectedGame.game} strategy, ${selectedGame.game} enneagram, esports psychology, ${selectedGame.genre} tactics`
+      };
+    }
+
+    switch (activeTab) {
+      case 'about':
+        return { title: 'About Enneagram in Gaming | Enneagaming', description: 'Learn how the 9 Enneagram personality types translate into competitive gaming behaviors, strengths, and weaknesses.' };
+      case 'synthesis':
+        return { title: 'Enneagram Synthesis | Enneagaming', description: 'Explore the complete Enneagram system mapped to gaming strategies. Understand the Head, Heart, and Gut centers in esports.' };
+      case 'strategy':
+        return { title: 'Game Strategies by Personality | Enneagaming', description: 'Find tailored gaming strategies for League of Legends, Valorant, CS2, and more based on your Enneagram type.' };
+      case 'quiz':
+        return { title: 'Gamer Personality Quiz | Enneagaming', description: 'Take our specialized Enneagram quiz designed for gamers to discover your core gaming personality and tactical style.' };
+      case 'intel':
+        return { title: 'In-Depth Intel | Enneagaming', description: 'Deep dive into advanced behavioral analytics and psychological tactics for competitive gamers.' };
+      case 'characters':
+        return { title: 'Character Selection | Enneagaming', description: 'Find the perfect character, agent, or champion that matches your Enneagram personality type.' };
+      case 'books':
+        return { title: 'Recommended Reading | Enneagaming', description: 'Curated books on psychology, strategy, and self-improvement for competitive gamers.' };
+      case 'blog':
+        return { title: 'Enneagaming Blog | Esports Psychology', description: 'Read the latest articles on esports psychology, Enneagram analysis, and competitive gaming strategies.' };
+      case 'newsletter':
+        return { title: 'Subscribe to Enneagaming | Newsletter', description: 'Join the Enneagaming newsletter for weekly insights on gaming psychology and personality-driven tactics.' };
+      default:
+        return {};
+    }
+  }, [activeTab, selectedGame, isPrivacyPage]);
+
   return (
     <div className="min-h-screen bg-[#050505] text-gray-200 font-sans selection:bg-cyan-500/30 pb-12">
+      <SEO {...seoData} />
       {isPrivacyPage ? (
         <PrivacyPage />
       ) : (
@@ -119,13 +167,15 @@ function App() {
             >
               Intel
             </Link>
-            <Link
-              to="/books"
-              onClick={() => { setActiveTab('books'); setSelectedGame(null); }}
-              className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'books' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
-            >
-              Books
-            </Link>
+            {!isNative && (
+              <Link
+                to="/books"
+                onClick={() => { setActiveTab('books'); setSelectedGame(null); }}
+                className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'books' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
+              >
+                Books
+              </Link>
+            )}
             <Link
               to="/blog"
               onClick={() => { setActiveTab('blog'); setSelectedGame(null); }}
@@ -134,15 +184,31 @@ function App() {
               Blog
             </Link>
           </nav>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 relative">
             <ShareButton />
+            <div className="absolute top-[calc(100%+1.5rem)] right-0 z-50">
+              <button 
+                onClick={() => { setActiveTab('newsletter'); setSelectedGame(null); }}
+                className="bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 shadow-lg whitespace-nowrap border border-red-400/30"
+              >
+                <Mail className="w-4 h-4 hidden sm:block" />
+                Newsletter
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
       <main className="flex-1 flex flex-col h-[calc(100vh-4rem)] overflow-hidden relative">
-        <div className="fixed bottom-20 right-6 z-[60] md:hidden">
+        <div className="fixed bottom-20 right-6 z-[60] md:hidden flex flex-col gap-3">
           <ShareButton />
+          <button 
+            onClick={() => { setActiveTab('newsletter'); setSelectedGame(null); }}
+            className="bg-red-500 hover:bg-red-600 text-white p-3 rounded-full shadow-lg transition-colors flex items-center justify-center"
+            aria-label="Newsletter"
+          >
+            <Mail className="w-5 h-5" />
+          </button>
         </div>
         <AnimatePresence mode="wait">
           {activeTab === 'about' ? (
@@ -204,6 +270,16 @@ function App() {
               className="flex-1 overflow-y-auto"
             >
               <BlogPage />
+            </motion.div>
+          ) : activeTab === 'newsletter' ? (
+            <motion.div
+              key="newsletter"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="flex-1 overflow-y-auto"
+            >
+              <NewsletterPage />
             </motion.div>
           ) : activeTab === 'books' ? (
             <motion.div

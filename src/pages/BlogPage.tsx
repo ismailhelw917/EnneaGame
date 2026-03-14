@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import { blogPosts, BlogPost } from '../data/blogPosts';
 import CommentSection from '../components/CommentSection';
+import SEO from '../components/SEO';
 
 const BlogPage: React.FC = () => {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
@@ -16,6 +17,14 @@ const BlogPage: React.FC = () => {
       exit={{ opacity: 0, y: -20 }}
       className="flex-1 overflow-y-auto p-6"
     >
+      {selectedPost && (
+        <SEO 
+          title={`${selectedPost.title} | Enneagaming Blog`}
+          description={selectedPost.excerpt}
+          image={selectedPost.image}
+          type="article"
+        />
+      )}
       <div className="max-w-7xl mx-auto">
         <AnimatePresence mode="wait">
           {!selectedPost ? (

@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Users, UserPlus, Shield, Zap, Target, Brain, Heart, Anchor, Search, ArrowLeft, AlertTriangle, CheckCircle2, Trophy, ArrowDown } from 'lucide-react';
 import { enneagramData } from '../data/enneagram';
+import SEO from '../components/SEO';
 
 const CharacterSelectionPage = () => {
   const [viewingTypeId, setViewingTypeId] = useState<number | null>(null);
@@ -144,6 +145,13 @@ const CharacterSelectionPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 h-full flex flex-col overflow-hidden">
+      {viewingTypeId && (
+        <SEO 
+          title={`Type ${viewingTypeId} Character Selection | Enneagaming`}
+          description={`Find the perfect character archetype for Enneagram Type ${viewingTypeId}. Stop fighting your nature and maximize performance.`}
+          keywords={`Enneagram Type ${viewingTypeId} characters, gaming archetypes, esports psychology`}
+        />
+      )}
       <AnimatePresence mode="wait">
         {!viewingTypeId ? (
           <motion.div

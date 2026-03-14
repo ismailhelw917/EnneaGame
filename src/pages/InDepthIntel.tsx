@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { enneagramData } from '../data/enneagram';
 import { BarChart3, Shield, Zap, Target, Brain, Activity, TrendingUp, Users, AlertTriangle, Sparkles, LayoutGrid, MousePointer2 } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const InDepthIntel = () => {
   const [selectedTypeId, setSelectedTypeId] = useState<number>(1);
@@ -30,6 +31,11 @@ const InDepthIntel = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 sm:py-12 space-y-8 sm:space-y-12 pb-24 relative">
+      <SEO 
+        title={`Type ${selectedType.id} (${selectedType.name}) Gaming Intel | Enneagaming`}
+        description={`Advanced behavioral analytics and tactical recommendations for Enneagram Type ${selectedType.id} in competitive gaming.`}
+        keywords={`Enneagram Type ${selectedType.id}, ${selectedType.name}, gaming psychology, esports analytics`}
+      />
       {/* SEO Optimized Header */}
       <div className="text-center space-y-4">
         <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tighter uppercase italic">
