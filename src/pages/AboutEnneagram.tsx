@@ -11,7 +11,7 @@ const AboutEnneagram = () => {
         className="space-y-8 sm:space-y-12"
       >
         <section className="text-center space-y-3 sm:space-y-4">
-          <h1 className="text-3xl sm:text-5xl font-serif italic text-white tracking-tight">What is the Enneagram?</h1>
+          <h1 className="text-3xl md:text-5xl font-black text-white mb-12 uppercase italic tracking-tighter">What is the Enneagram?</h1>
           <p className="text-base sm:text-xl text-gray-400 font-light max-w-2xl mx-auto px-2">
             A profound map of the human psyche, describing nine distinct personality types and their complex interconnections.
           </p>

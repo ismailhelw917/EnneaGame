@@ -10,3 +10,7 @@
 body {
   @apply bg-stone-50 text-stone-900 font-sans antialiased;
 }
+
+.markdown-body img {
+  @apply mx-auto rounded-xl shadow-md my-6;
+}

@@ -16,7 +16,7 @@ const BookRecommendations: React.FC = () => {
       author: "Beatrice Chestnut & Uranio Paes",
       description: "A comprehensive guide to using the Enneagram for personal growth and transformation.",
       link: "https://amzn.to/4bn8aMq",
-      image: "https://m.media-amazon.com/images/I/7154-rJfTXL._SL1500_.jpg"
+      image: "https://m.media-amazon.com/images/I/71bCePosDZL._SY522_.jpg"
     },
     {
       title: "My Enneagram: A Visual Guide to Find Your Personality Type, Stress Less, and Live Your Dreams",

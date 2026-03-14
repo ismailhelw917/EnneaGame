@@ -87,7 +87,7 @@ Operational Guidelines:
             <Bot className="text-cyan-400 w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
-            <h2 className="text-lg sm:text-xl font-bold text-white leading-tight">Enneagram Guide</h2>
+            <h2 className="text-lg sm:text-xl font-bold text-white leading-tight">AI Test</h2>
             <p className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">AI Discovery Assistant</p>
           </div>
         </div>
