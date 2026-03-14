@@ -31,10 +31,11 @@ const EnneagramChatbot = () => {
     analytics.trackEvent('chat_message_sent', { length: userMessage.length, text: userMessage });
 
     try {
-      if (!process.env.GEMINI_API_KEY) {
+      const apiKey = process.env.GEMINI_API_KEY || (window as any).GEMINI_API_KEY;
+      if (!apiKey) {
         throw new Error("GEMINI_API_KEY is missing.");
       }
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const ai = new GoogleGenAI({ apiKey });
       
       const history = messages.slice(0, -1).map(m => ({
         role: m.role === 'user' ? 'user' : 'model',

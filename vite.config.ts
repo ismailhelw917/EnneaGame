@@ -14,7 +14,4 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 2000,
   },
-  define: {
-    'process.env.GEMINI_API_KEY': JSON.stringify(process.env.GEMINI_API_KEY),
-  },
 })
