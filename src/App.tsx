@@ -5,7 +5,7 @@ import BookRecommendations from './pages/BookRecommendations';
 import BlogPage from './pages/BlogPage';
 import PrivacyPage from './pages/PrivacyPage';
 import AboutEnneagram from './pages/AboutEnneagram';
-import EnneagramChatbot from './pages/EnneagramChatbot';
+import QuizPage from './pages/QuizPage';
 import InDepthIntel from './pages/InDepthIntel';
 import CharacterSelectionPage from './pages/CharacterSelectionPage';
 import StrategyPage from './components/StrategyPage';
@@ -19,7 +19,7 @@ import { enneagramData, gameStrategies } from './data/enneagram';
 
 function App() {
   const [selectedType, setSelectedType] = useState<number | null>(null);
-  const [activeTab, setActiveTab] = useState<'about' | 'synthesis' | 'games' | 'strategy' | 'chatbot' | 'intel' | 'characters' | 'books' | 'blog'>('about');
+  const [activeTab, setActiveTab] = useState<'about' | 'synthesis' | 'games' | 'strategy' | 'quiz' | 'intel' | 'characters' | 'books' | 'blog'>('about');
   const [selectedGame, setSelectedGame] = useState<GameStrategy | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
@@ -27,7 +27,7 @@ function App() {
   // Sync activeTab with URL path on mount and location change
   React.useEffect(() => {
     const path = location.pathname.replace('/', '');
-    const validTabs = ['about', 'synthesis', 'games', 'strategy', 'chatbot', 'intel', 'characters', 'books', 'blog'] as const;
+    const validTabs = ['about', 'synthesis', 'games', 'strategy', 'quiz', 'intel', 'characters', 'books', 'blog'] as const;
     if ((validTabs as readonly string[]).includes(path)) {
       setActiveTab(path as typeof validTabs[number]);
     }
@@ -106,11 +106,11 @@ function App() {
               Characters
             </Link>
             <Link
-              to="/chatbot"
-              onClick={() => { setActiveTab('chatbot'); setSelectedGame(null); }}
-              className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'chatbot' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
+              to="/quiz"
+              onClick={() => { setActiveTab('quiz'); setSelectedGame(null); }}
+              className={`px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${activeTab === 'quiz' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'}`}
             >
-              AI Test
+              Quiz
             </Link>
             <Link
               to="/intel"
@@ -155,15 +155,15 @@ function App() {
             >
               <AboutEnneagram />
             </motion.div>
-          ) : activeTab === 'chatbot' ? (
+          ) : activeTab === 'quiz' ? (
             <motion.div
-              key="chatbot"
+              key="quiz"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="flex-1 flex flex-col overflow-hidden"
+              className="flex-1 overflow-y-auto"
             >
-              <EnneagramChatbot />
+              <QuizPage />
             </motion.div>
           ) : activeTab === 'intel' ? (
             <motion.div
