@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Mail, CheckCircle2, AlertCircle } from 'lucide-react';
-import { enneagramData } from '../data/enneagram';
+import { Mail, CheckCircle2, AlertCircle, Facebook } from 'lucide-react';
+import { db } from '../firebase';
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 
 const NewsletterPage = () => {
   const [name, setName] = useState('');
@@ -18,27 +19,21 @@ const NewsletterPage = () => {
     setErrorMessage('');
 
     try {
-      const response = await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, type, consent }),
+      await addDoc(collection(db, 'subscribers'), {
+        name,
+        email,
+        type: type || null,
+        consent,
+        createdAt: Date.now()
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setStatus('success');
-        setName('');
-        setEmail('');
-        setType('');
-        setConsent(false);
-      } else {
-        setStatus('error');
-        setErrorMessage(data.error || 'Something went wrong. Please try again.');
-      }
+      setStatus('success');
+      setName('');
+      setEmail('');
+      setType('');
+      setConsent(false);
     } catch (error) {
+      console.error('Error subscribing:', error);
       setStatus('error');
       setErrorMessage('Network error. Please try again later.');
     }
@@ -165,6 +160,16 @@ const NewsletterPage = () => {
                   </>
                 )}
               </button>
+              
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-[#1877F2] hover:bg-[#1864D9] text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4"
+              >
+                <Facebook className="w-5 h-5" />
+                Follow us on Facebook
+              </a>
             </form>
           )}
         </div>

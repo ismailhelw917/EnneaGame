@@ -23,6 +23,23 @@ service cloud.firestore {
              data.createdAt is number;
     }
 
+    // Subscriber Validator
+    function isValidSubscriber(data) {
+      return data.keys().hasAll(['name', 'email', 'consent', 'createdAt']) &&
+             data.name is string && data.name.size() > 0 &&
+             data.email is string && data.email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") &&
+             data.consent is bool && data.consent == true &&
+             (!('type' in data) || data.type == null || data.type is string) &&
+             data.createdAt is number;
+    }
+
+    match /subscribers/{subscriberId} {
+      allow read: if false; // Only admins can read subscribers
+      allow create: if isValidSubscriber(request.resource.data);
+      allow update: if false;
+      allow delete: if false;
+    }
+
     match /comments/{commentId} {
       allow read: if true;
       allow create: if isValidComment(request.resource.data);

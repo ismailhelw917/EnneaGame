@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { enneagramData } from '../data/enneagram';
-import CommentsPage from './CommentsPage';
+import CommentSection from '../components/CommentSection';
 import SEO from '../components/SEO';
 
 const quizQuestions = [
@@ -126,7 +126,7 @@ const QuizPage = () => {
         </div>
 
         <div className="mt-8">
-          <CommentsPage />
+          <CommentSection postId="quiz-page" />
         </div>
       </div>
     );

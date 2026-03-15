@@ -1,25 +1,79 @@
 {
   "entities": {
-    "BlogPost": {
-      "title": "BlogPost",
-      "description": "A blog post about Enneagram and gaming.",
+    "Comment": {
+      "title": "Comment",
+      "description": "A user comment on a blog post or quiz.",
       "type": "object",
       "properties": {
-        "title": { "type": "string", "description": "The title of the blog post." },
-        "slug": { "type": "string", "description": "A URL-friendly version of the title." },
-        "date": { "type": "string", "description": "The date of the post." },
-        "excerpt": { "type": "string", "description": "A short summary of the post." },
-        "seoDescription": { "type": "string", "description": "SEO description." },
-        "image": { "type": "string", "description": "URL of the post image." },
-        "content": { "type": "string", "description": "The full content of the post." }
+        "postId": {
+          "type": "string",
+          "description": "The ID of the post or page the comment belongs to."
+        },
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user who posted the comment."
+        },
+        "userName": {
+          "type": "string",
+          "description": "The display name of the user."
+        },
+        "userPhoto": {
+          "type": "string",
+          "description": "The URL of the user's profile photo."
+        },
+        "text": {
+          "type": "string",
+          "description": "The content of the comment."
+        },
+        "createdAt": {
+          "type": "number",
+          "description": "The timestamp when the comment was created."
+        }
       },
-      "required": ["title", "slug", "date", "excerpt", "content"]
+      "required": ["postId", "userId", "userName", "userPhoto", "text", "createdAt"]
+    },
+    "Subscriber": {
+      "title": "Subscriber",
+      "description": "A user who has subscribed to the newsletter.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the subscriber."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The email address of the subscriber."
+        },
+        "type": {
+          "type": "string",
+          "description": "The Enneagram type of the subscriber (optional)."
+        },
+        "consent": {
+          "type": "boolean",
+          "description": "Whether the user consented to receive emails."
+        },
+        "createdAt": {
+          "type": "number",
+          "description": "The timestamp when the subscription was created."
+        }
+      },
+      "required": ["name", "email", "consent", "createdAt"]
     }
   },
   "firestore": {
-    "/blogPosts/{postId}": {
-      "schema": { "$ref": "BlogPost" },
-      "description": "Collection of blog posts."
+    "/comments/{commentId}": {
+      "schema": {
+        "$ref": "#/entities/Comment"
+      },
+      "description": "Stores user comments."
+    },
+    "/subscribers/{subscriberId}": {
+      "schema": {
+        "$ref": "#/entities/Subscriber"
+      },
+      "description": "Stores newsletter subscribers."
     }
   }
 }

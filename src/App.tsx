@@ -15,7 +15,7 @@ import Footer from './components/Footer';
 import SEO from './components/SEO';
 import { analytics } from './services/analyticsService';
 import { motion, AnimatePresence } from 'motion/react';
-import { Crosshair, Zap, Target, Sword, Search, ArrowLeft, Mail } from 'lucide-react';
+import { Crosshair, Zap, Target, Sword, Search, ArrowLeft, Mail, Facebook } from 'lucide-react';
 import { GameStrategy } from './data/types';
 import { enneagramData, gameStrategies } from './data/enneagram';
 import { Capacitor } from '@capacitor/core';
@@ -186,14 +186,23 @@ function App() {
           </nav>
           <div className="flex items-center gap-2 relative">
             <ShareButton />
-            <div className="absolute top-[calc(100%+1.5rem)] right-0 z-50">
+            <div className="absolute top-[calc(100%+1.5rem)] right-0 z-50 flex flex-col gap-2">
               <button 
                 onClick={() => { setActiveTab('newsletter'); setSelectedGame(null); }}
-                className="bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 shadow-lg whitespace-nowrap border border-red-400/30"
+                className="bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 shadow-lg whitespace-nowrap border border-red-400/30 w-full justify-center"
               >
                 <Mail className="w-4 h-4 hidden sm:block" />
                 Newsletter
               </button>
+              <a 
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#1877F2] hover:bg-[#1864D9] text-white px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 shadow-lg whitespace-nowrap border border-[#1877F2]/30 w-full justify-center"
+              >
+                <Facebook className="w-4 h-4 hidden sm:block" />
+                Facebook
+              </a>
             </div>
           </div>
         </div>
@@ -209,6 +218,15 @@ function App() {
           >
             <Mail className="w-5 h-5" />
           </button>
+          <a 
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#1877F2] hover:bg-[#1864D9] text-white p-3 rounded-full shadow-lg transition-colors flex items-center justify-center"
+            aria-label="Facebook"
+          >
+            <Facebook className="w-5 h-5" />
+          </a>
         </div>
         <AnimatePresence mode="wait">
           {activeTab === 'about' ? (

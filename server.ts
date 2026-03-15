@@ -1,18 +1,5 @@
 import express from "express";
-import Database from "better-sqlite3";
 import path from "path";
-
-const db = new Database("newsletter.db");
-db.exec(`
-  CREATE TABLE IF NOT EXISTS subscribers (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL UNIQUE,
-    type TEXT,
-    consent BOOLEAN NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  )
-`);
 
 async function startServer() {
   console.log("Starting server...");
@@ -29,27 +16,6 @@ async function startServer() {
   // API Routes
   app.get("/health", (req, res) => {
     res.json({ status: "ok" });
-  });
-
-  app.post("/api/newsletter", (req, res) => {
-    const { name, email, type, consent } = req.body;
-    
-    if (!name || !email || consent === undefined) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
-
-    try {
-      const stmt = db.prepare("INSERT INTO subscribers (name, email, type, consent) VALUES (?, ?, ?, ?)");
-      stmt.run(name, email, type || null, consent ? 1 : 0);
-      res.json({ success: true });
-    } catch (error: any) {
-      if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-        res.status(400).json({ error: "Email is already subscribed." });
-      } else {
-        console.error("Database error:", error);
-        res.status(500).json({ error: "Database error occurred." });
-      }
-    }
   });
 
   // Vite
