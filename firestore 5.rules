@@ -1,0 +1,135 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: userId (UID)
+    // Fields:
+    //   - uid: string (required, immutable) - Firebase Auth UID
+    //   - displayName: string (required, 1-50 chars) - User's display name
+    //   - photoURL: string (optional, valid URL) - URL to user's avatar
+    //   - createdAt: timestamp (required, immutable) - Account creation date
+    //
+    // Collection: topics
+    // Document ID: topicId
+    // Fields:
+    //   - title: string (required, 1-100 chars) - Title of the topic
+    //   - content: string (required, 1-5000 chars) - Main content
+    //   - authorUid: string (required, immutable) - UID of the author
+    //   - authorName: string (required, 1-50 chars) - Name of the author
+    //   - tags: list (required, max 10 tags, each 1-20 chars) - User-defined tags
+    //   - createdAt: timestamp (required, immutable) - Creation date
+    //   - replyCount: number (required, >=0) - Number of replies
+    //   - lastReplyAt: timestamp (required) - Timestamp of last reply
+    //
+    // Collection: topics/{topicId}/replies
+    // Document ID: replyId
+    // Fields:
+    //   - topicId: string (required, immutable) - ID of the parent topic
+    //   - content: string (required, 1-2000 chars) - Content of the reply
+    //   - authorUid: string (required, immutable) - UID of the author
+    //   - authorName: string (required, 1-50 chars) - Name of the author
+    //   - createdAt: timestamp (required, immutable) - Creation date
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isDocOwner(authorUid) {
+      return isAuthenticated() && request.auth.uid == authorUid;
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    function isValidString(field, minLen, maxLen) {
+      return request.resource.data[field] is string &&
+             request.resource.data[field].size() >= minLen &&
+             request.resource.data[field].size() <= maxLen;
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidUser(data) {
+      return hasRequiredFields(['uid', 'displayName', 'createdAt']) &&
+             hasOnlyAllowedFields(['uid', 'displayName', 'photoURL', 'createdAt']) &&
+             data.uid == request.auth.uid &&
+             isValidString('displayName', 1, 50) &&
+             (data.photoURL == null || (data.photoURL is string && data.photoURL.size() < 200)) &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidTopic(data) {
+      return hasRequiredFields(['title', 'content', 'authorUid', 'authorName', 'tags', 'createdAt', 'replyCount', 'lastReplyAt']) &&
+             hasOnlyAllowedFields(['title', 'content', 'authorUid', 'authorName', 'tags', 'createdAt', 'replyCount', 'lastReplyAt']) &&
+             isValidString('title', 1, 100) &&
+             isValidString('content', 1, 5000) &&
+             isValidString('authorUid', 1, 128) &&
+             isValidString('authorName', 1, 50) &&
+             data.tags is list && data.tags.size() <= 10 &&
+             data.createdAt is timestamp &&
+             data.replyCount is number && data.replyCount >= 0 &&
+             data.lastReplyAt is timestamp;
+    }
+
+    function isValidReply(data) {
+      return hasRequiredFields(['topicId', 'content', 'authorUid', 'authorName', 'createdAt']) &&
+             hasOnlyAllowedFields(['topicId', 'content', 'authorUid', 'authorName', 'createdAt']) &&
+             isValidString('content', 1, 2000) &&
+             isValidString('authorUid', 1, 128) &&
+             isValidString('authorName', 1, 50) &&
+             data.createdAt is timestamp;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read, write: if isOwner(userId) && isValidUser(request.resource.data);
+    }
+
+    match /topics/{topicId} {
+      allow read: if true;
+      allow create: if isValidTopic(request.resource.data);
+      allow update: if isValidTopic(request.resource.data) && 
+                    (
+                      (isDocOwner(resource.data.authorUid) && areImmutableFieldsUnchanged(['authorUid', 'createdAt'])) ||
+                      (areImmutableFieldsUnchanged(['authorUid', 'createdAt', 'title', 'content', 'tags', 'authorName']))
+                    );
+      allow delete: if isDocOwner(resource.data.authorUid);
+
+      match /replies/{replyId} {
+        allow read: if true;
+        allow create: if isValidReply(request.resource.data);
+        allow update: if isDocOwner(resource.data.authorUid) && isValidReply(request.resource.data) && areImmutableFieldsUnchanged(['topicId', 'authorUid', 'createdAt']);
+        allow delete: if isDocOwner(resource.data.authorUid);
+      }
+    }
+  }
+}
