@@ -177,5 +177,88 @@ To find your true main, you need to look past the tier lists and examine the **f
 
 When you find a character whose mechanical loop satisfies your psychological core desire, you won't just play better—you'll stop looking at the character select screen entirely.
     `
+  },
+  {
+    id: '4',
+    title: "The Tactician's Mind: Type 5s in Strategy Games",
+    slug: 'type-5-strategy-games',
+    date: '2026-03-17',
+    excerpt: "Type 5s are the natural architects of the gaming world. Here's how to leverage your analytical mind in strategy games.",
+    seoDescription: "Explore how Type 5 Enneagram gamers can use their analytical skills to dominate in strategy games.",
+    image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2071&auto=format&fit=crop",
+    content: `
+Type 5s (The Investigator) are the natural architects of the gaming world. You don't just play the game; you study it, deconstruct it, and master its systems. In strategy games, this analytical approach is your greatest weapon.
+
+<img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2071&auto=format&fit=crop" alt="Strategy Gaming Setup" referrerPolicy="no-referrer" className="w-full rounded-2xl my-6" />
+
+### The Power of Information
+For a Type 5, knowledge is power. You excel in games that reward deep system mastery, such as RTS or 4X titles. Your ability to process complex variables and anticipate opponent moves makes you a formidable strategist.
+
+### Leveraging Your Analytical Mind
+1. **System Mastery:** Don't just learn the meta; understand *why* it's the meta.
+2. **Predictive Modeling:** Use your data-driven approach to anticipate opponent strategies before they manifest.
+3. **Resource Management:** Your natural inclination toward efficiency makes you a master of resource allocation.
+
+> "The game is not won on the battlefield; it is won in the preparation."
+
+By leaning into your strengths as an observer and analyst, you can turn any strategy game into a playground for your intellect.
+    `
+  },
+  {
+    id: '5',
+    title: "Empathy as a Weapon: Type 2s in Team-Based Shooters",
+    slug: 'type-2-team-shooters',
+    date: '2026-03-18',
+    excerpt: "Type 2s are the glue that holds a team together. Discover how to use your natural empathy to dominate in team-based shooters.",
+    seoDescription: "Learn how Type 2 Enneagram gamers can use their empathy to excel in team-based shooters.",
+    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop",
+    content: `
+Type 2s (The Helper) often feel like they don't belong in competitive, high-stakes environments. But in team-based shooters, your natural empathy is not a weakness—it's a weapon.
+
+<img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop" alt="Team Based Shooter" referrerPolicy="no-referrer" className="w-full rounded-2xl my-6" />
+
+### The Team's Anchor
+You are the glue that holds a team together. While others are focused on their own stats, you are acutely aware of your teammates' needs. You know when to push, when to pull back, and when to provide support.
+
+### Turning Empathy into Tactical Advantage
+1. **Supportive Roles:** You thrive in roles that empower others. Your presence makes your teammates better players.
+2. **Communication:** You are the team's emotional barometer. Use your insight to keep morale high and coordination tight.
+3. **Anticipating Needs:** Your ability to sense others' needs allows you to provide support *before* it's requested.
+
+> "A team is only as strong as its weakest link. As a Type 2, you ensure there are no weak links."
+
+Don't underestimate the power of support. By fostering a positive and coordinated team environment, you can lead your team to victory, even when you aren't the one with the most kills.
+    `
+  },
+  {
+    id: '6',
+    title: "The Enneagram of Gaming: Advanced Tactics",
+    slug: 'enneagram-gaming-advanced-tactics',
+    date: '2026-03-19',
+    excerpt: "Take your gaming to the next level by applying advanced Enneagram tactics to your team dynamics.",
+    seoDescription: "Advanced Enneagram tactics for gamers. Learn how to optimize team dynamics and performance using personality insights.",
+    image: "/Images/picture1.jpg",
+    content: `
+# Advanced Enneagram Tactics for Gamers
+
+Once you understand your core Enneagram type, the next step is applying that knowledge to complex team dynamics. Advanced gaming isn't just about individual skill—it's about how your personality interacts with your teammates.
+
+## Optimizing Team Compositions
+
+The most successful teams are those that balance different Enneagram types. When you understand the strengths and blind spots of each type, you can create a composition that is greater than the sum of its parts.
+
+*   **The Stabilizer (Type 6/9):** Essential for keeping the team grounded during high-pressure moments.
+*   **The Catalyst (Type 3/7/8):** Necessary for pushing the pace and forcing engagements.
+
+## Managing Conflict
+
+Conflict is inevitable in competitive gaming. The key is to manage it constructively:
+
+1.  **Identify the Trigger:** Is the conflict rooted in a difference in playstyle, or is it a clash of core motivations?
+2.  **Communicate Needs:** Use your Enneagram knowledge to explain *why* you are frustrated in a way that your teammates can understand.
+3.  **Focus on the Goal:** Always bring the conversation back to the win condition.
+
+By applying these advanced tactics, you can transform your team from a group of individuals into a cohesive, high-performing unit.
+    `
   }
 ];

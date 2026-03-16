@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Users, UserPlus, Shield, Zap, Target, Brain, Heart, Anchor, Search, ArrowLeft, AlertTriangle, CheckCircle2, Trophy, ArrowDown } from 'lucide-react';
 import { enneagramData } from '../data/enneagram';
 import SEO from '../components/SEO';

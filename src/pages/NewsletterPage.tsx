@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Mail, CheckCircle2, AlertCircle, Facebook } from 'lucide-react';
 import { db } from '../firebase';
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
+import { enneagramData } from '../data/enneagram';
 
 const NewsletterPage = () => {
   const [name, setName] = useState('');

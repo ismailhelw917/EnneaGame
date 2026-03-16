@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Shield, Sword, Info } from 'lucide-react';
 import { enneagramData } from '../data/enneagram';
 

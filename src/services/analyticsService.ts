@@ -11,7 +11,7 @@ class AnalyticsService {
 
   constructor() {
     // Check for environment variable or user preference if needed
-    this.isEnabled = import.meta.env.PROD || true;
+    this.isEnabled = true;
   }
 
   /**
