@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Comment Validator
+    function isValidComment(data) {
+      return data.keys().hasAll(['postId', 'userId', 'userName', 'userPhoto', 'text', 'createdAt']) &&
+             data.keys().hasOnly(['postId', 'userId', 'userName', 'userPhoto', 'text', 'createdAt']) &&
+             data.postId is string && data.postId.size() > 0 &&
+             data.userId is string &&
+             data.userName is string && data.userName.size() > 0 &&
+             data.userPhoto is string &&
+             data.text is string && data.text.size() > 0 && data.text.size() < 1000 &&
+             data.createdAt is number;
+    }
+
+    // Subscriber Validator
+    function isValidSubscriber(data) {
+      return data.keys().hasAll(['name', 'email', 'consent', 'createdAt']) &&
+             data.name is string && data.name.size() > 0 &&
+             data.email is string && data.email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") &&
+             data.consent is bool && data.consent == true &&
+             (!('type' in data) || data.type == null || data.type is string) &&
+             data.createdAt is number;
+    }
+
+    match /subscribers/{subscriberId} {
+      allow read: if false; // Only admins can read subscribers
+      allow create: if isValidSubscriber(request.resource.data);
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if isValidComment(request.resource.data);
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}
