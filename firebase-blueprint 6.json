@@ -1,0 +1,59 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the discussion board",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "displayName": { "type": "string", "description": "User's display name" },
+        "photoURL": { "type": "string", "description": "URL to user's avatar" },
+        "createdAt": { "type": "string", "format": "date", "description": "Account creation date" }
+      },
+      "required": ["uid", "displayName", "createdAt"]
+    },
+    "Topic": {
+      "title": "Topic",
+      "description": "A discussion topic",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Title of the topic" },
+        "content": { "type": "string", "description": "Main content of the topic" },
+        "authorUid": { "type": "string", "description": "UID of the author" },
+        "authorName": { "type": "string", "description": "Name of the author" },
+        "tags": { "type": "array", "description": "User-defined tags" },
+        "createdAt": { "type": "string", "format": "date", "description": "Creation date" },
+        "replyCount": { "type": "number", "description": "Number of replies" },
+        "lastReplyAt": { "type": "string", "format": "date", "description": "Timestamp of last reply" }
+      },
+      "required": ["title", "content", "authorUid", "authorName", "tags", "createdAt"]
+    },
+    "Reply": {
+      "title": "Reply",
+      "description": "A reply to a topic",
+      "type": "object",
+      "properties": {
+        "topicId": { "type": "string", "description": "ID of the parent topic" },
+        "content": { "type": "string", "description": "Content of the reply" },
+        "authorUid": { "type": "string", "description": "UID of the author" },
+        "authorName": { "type": "string", "description": "Name of the author" },
+        "createdAt": { "type": "string", "format": "date", "description": "Creation date" }
+      },
+      "required": ["topicId", "content", "authorUid", "authorName", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": { "$ref": "User" },
+      "description": "User profiles"
+    },
+    "topics/{topicId}": {
+      "schema": { "$ref": "Topic" },
+      "description": "Discussion topics"
+    },
+    "topics/{topicId}/replies/{replyId}": {
+      "schema": { "$ref": "Reply" },
+      "description": "Replies to topics"
+    }
+  }
+}
