@@ -26,26 +26,14 @@ const GamesPage = () => {
             className="bg-[#0f0f0f] border border-white/5 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all group cursor-pointer"
             onClick={() => setSelectedGame(selectedGame === game.id ? null : game.id)}
           >
-            <div className="h-48 overflow-hidden relative">
-              <img 
-                src={game.thumbnail} 
-                alt={game.game} 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f] to-transparent" />
-              <div className="absolute bottom-4 left-4">
-                <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest bg-black/50 px-2 py-1 rounded backdrop-blur-sm">
+            <div className="p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-bold text-white">{game.game}</h3>
+                <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest bg-white/5 px-2 py-1 rounded">
                   {game.genre}
                 </span>
               </div>
-            </div>
-            
-            <div className="p-6 space-y-4">
-              <div>
-                <h3 className="text-xl font-bold text-white">{game.game}</h3>
-                <p className="text-sm text-gray-400 mt-1">{game.description}</p>
-              </div>
+              <p className="text-sm text-gray-400">{game.description}</p>
 
               {selectedGame === game.id && (
                 <motion.div 

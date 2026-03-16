@@ -206,7 +206,8 @@ export const gameStrategies: GameStrategy[] = [
     id: "valorant",
     game: "Valorant",
     genre: "Tactical Shooter",
-    thumbnail: "https://picsum.photos/seed/cyberpunk/800/450",
+    thumbnail: "https://images.contentstack.io/v3/assets/blt3703c23e5900548d/blt054452a55850901e/6389279075323a6771d93158/Valorant_Keyart.jpg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/f/fc/Valorant_logo_-_pink_color_version.svg",
     description: "5v5 character-based tactical shooter where precise gunplay meets unique agent abilities.",
     advice: [
       { typeId: 1, tip: "Perfect crosshair placement routines. Play Sentinel to control the site perfectly." },
@@ -219,7 +220,8 @@ export const gameStrategies: GameStrategy[] = [
     id: "cs2",
     game: "Counter-Strike 2",
     genre: "Tactical Shooter",
-    thumbnail: "https://picsum.photos/seed/military/800/450",
+    thumbnail: "https://cdn.akamai.steamstatic.com/steam/apps/730/ss_4966683506307306069.1920x1080.jpg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/3/37/CS2_logo.png",
     description: "The premier tactical shooter. Pure mechanical skill and strategic depth.",
     advice: [
       { typeId: 1, tip: "Master the spray patterns. Your discipline is your greatest weapon." },
@@ -232,7 +234,8 @@ export const gameStrategies: GameStrategy[] = [
     id: "league",
     game: "League of Legends",
     genre: "MOBA",
-    thumbnail: "https://picsum.photos/seed/fantasy/800/450",
+    thumbnail: "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt9220970634633757/64b54e7d17462a044670058b/071223_LoL_KeyArt.jpg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/d/d8/League_of_Legends_logo.png",
     description: "Fast-paced, competitive online game blending RTS speed with RPG elements.",
     advice: [
       { typeId: 2, tip: "Support main. Focus on vision control to protect your carries." },
@@ -245,7 +248,8 @@ export const gameStrategies: GameStrategy[] = [
     id: "dota2",
     game: "Dota 2",
     genre: "MOBA",
-    thumbnail: "https://picsum.photos/seed/magic/800/450",
+    thumbnail: "https://cdn.akamai.steamstatic.com/apps/dota2/images/dota2_social.jpg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Dota_2_logo.svg/1200px-Dota_2_logo.svg.png",
     description: "Deepest multi-player action RTS. Infinite complexity and strategy.",
     advice: [
       { typeId: 5, tip: "Drafter/Captain. Your knowledge of the meta wins games before they start." },
@@ -258,7 +262,8 @@ export const gameStrategies: GameStrategy[] = [
     id: "overwatch",
     game: "Overwatch 2",
     genre: "Hero Shooter",
-    thumbnail: "https://picsum.photos/seed/robot/800/450",
+    thumbnail: "https://images.blz-content.com/all/overwatch/game-overview/overwatch2-keyart.jpg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Overwatch_2_logo.svg/1200px-Overwatch_2_logo.svg.png",
     description: "Team-based action game featuring a diverse cast of powerful heroes.",
     advice: [
       { typeId: 4, tip: "Play high-skill, unique heroes like Genji or Doomfist where expression is key." },
@@ -271,7 +276,8 @@ export const gameStrategies: GameStrategy[] = [
     id: "apex",
     game: "Apex Legends",
     genre: "Battle Royale",
-    thumbnail: "https://picsum.photos/seed/scifi/800/450",
+    thumbnail: "https://media.contentapi.ea.com/content/dam/apex-legends/common/apex-legends-tile.jpg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Apex_Legends_logo.svg/1200px-Apex_Legends_logo.svg.png",
     description: "Strategic battle royale where character abilities define the flow of combat.",
     advice: [
       { typeId: 7, tip: "Play Octane/Pathfinder. Speed and verticality match your need for stimulation." },
@@ -284,7 +290,8 @@ export const gameStrategies: GameStrategy[] = [
     id: "wow",
     game: "World of Warcraft",
     genre: "MMORPG",
-    thumbnail: "https://picsum.photos/seed/dragon/800/450",
+    thumbnail: "https://images.blz-content.com/all/wow/game-overview/wow-keyart.jpg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/World_of_Warcraft_logo.svg/1200px-World_of_Warcraft_logo.svg.png",
     description: "Massive multiplayer world focused on raids, dungeons, and PvP.",
     advice: [
       { typeId: 1, tip: "Raid Leader. Your perfectionism ensures mechanics are executed flawlessly." },
@@ -297,7 +304,8 @@ export const gameStrategies: GameStrategy[] = [
     id: "chess",
     game: "Chess",
     genre: "Strategy",
-    thumbnail: "https://picsum.photos/seed/strategy/800/450",
+    thumbnail: "https://images.chesscomfiles.com/uploads/v1/images_users/tiny_mce/SamCopeland/phpmeX62L.jpeg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Chess_Board.svg/1200px-Chess_Board.svg.png",
     description: "The ultimate test of strategy and foresight.",
     advice: [
       { typeId: 5, tip: "Study opening theory deeply. Knowledge is your edge." },

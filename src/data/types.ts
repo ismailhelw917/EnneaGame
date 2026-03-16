@@ -36,6 +36,7 @@ export interface GameStrategy {
   game: string;
   genre: string;
   thumbnail: string;
+  logo: string;
   description: string;
   advice: {
     typeId: number;
